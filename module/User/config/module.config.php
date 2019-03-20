@@ -40,11 +40,32 @@ return [
                     ],
                 ],
             ],
+            'login' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/login',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action' => 'login',
+                    ],
+                ],
+            ],
+            'logout' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/logout',
+                    'defaults' => [
+                        'controller' => Controller\AuthController::class,
+                        'action' => 'logout',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\UserController::class => Controller\Factory\UserControllerFactory::class,
+            Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
         ],
     ],
     'view_manager' => [
@@ -81,6 +102,8 @@ return [
         'factories' => [
             AuthenticationService::class => Service\Factory\AuthenticationServiceFactory::class,
             Service\UserManager::class => Service\Factory\UserManagerFactory::class,
+            Service\AuthAdapter::class => Service\Factory\AuthAdapterFactory::class,
+            Service\AuthManager::class => Service\Factory\AuthManagerFactory::class,
         ],
     ],
     'session_containers' => [
