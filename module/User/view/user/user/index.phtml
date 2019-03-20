@@ -1,0 +1,30 @@
+<?php $this->headTitle('Users'); ?>
+
+<div class="row" style="line-height: 50px">
+    <div class="col-md-9 col-sm-12">
+        <h1>Users</h1>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <th>№</th>
+    <th>логін</th>
+    <th></th>
+    </thead>
+    <?php
+    foreach ($this->users as $user) { ?>
+
+        <tr>
+            <td><?php echo $this->escapeHtml($user->getId()) ?></td>
+            <td><?php echo $this->escapeHtml($user->getLogin()) ?></td>
+            <td>
+                <a href="/user/edit/<?php echo $user->getId() ?>"
+                   class="prompt" title="" data-title="Edit">
+                    <i class="fas fa-edit"></i>
+                </a>
+            </td>
+        </tr>
+    <?php } ?>
+</table>
+
