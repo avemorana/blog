@@ -6,11 +6,12 @@
  */
 
 /**
- * List of enabled modules for this application.
+ * List of enabled modules for this admin.
  *
- * This should be an array of module namespaces used in the application.
+ * This should be an array of module namespaces used in the admin.
  */
 return [
+    'Zend\Session',
     'Zend\Cache',
     'Zend\Paginator',
     'Zend\Form',
@@ -19,4 +20,6 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
     'Application',
+    'User',
+//    'Admin'
 ];
