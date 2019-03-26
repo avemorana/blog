@@ -7,6 +7,10 @@
 
 namespace Application;
 
+use Application\Controller\Factory\PostControllerFactory;
+use Application\Service\Factory\PostManagerFactory;
+use Application\Service\PostManager;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -34,11 +38,22 @@ return [
                     ],
                 ],
             ],
+            'post' => [
+                'type'    => Segment::class,
+                'options' => [
+                    'route'    => '/post[/:action[/:id]]',
+                    'defaults' => [
+                        'controller' => Controller\PostController::class,
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
+            Controller\PostController::class => PostControllerFactory::class,
         ],
     ],
     'view_manager' => [
@@ -55,6 +70,25 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+    ],
+    'doctrine' => [
+        'driver' => [
+            __NAMESPACE__ . '_driver' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [__DIR__ . '/../src/Entity']
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                ]
+            ]
+        ]
+    ],
+    'service_manager' => [
+        'factories' => [
+            PostManager::class => PostManagerFactory::class,
         ],
     ],
 ];

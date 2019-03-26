@@ -11,6 +11,10 @@
  * This should be an array of module namespaces used in the admin.
  */
 return [
+    'Zend\Mvc\Plugin\FilePrg',
+    'Zend\Mvc\Plugin\FlashMessenger',
+    'Zend\Mvc\Plugin\Identity',
+    'Zend\Mvc\Plugin\Prg',
     'Zend\Session',
     'Zend\Cache',
     'Zend\Paginator',

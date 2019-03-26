@@ -1,0 +1,12 @@
+<?php
+
+foreach ($this->posts as $post) { ?>
+
+    <h4><?php echo $post->getTitle() ?></h4>
+    <?php echo $post->getUser()->getLogin() ?>
+    <?php echo $post->getDate() ?>
+    <br>
+    <?php echo $post->getContent() ?>
+    <br><br>
+
+<?php } ?>

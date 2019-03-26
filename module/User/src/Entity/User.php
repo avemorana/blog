@@ -36,6 +36,12 @@ class User
      */
     protected $password;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Post", mappedBy="user")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     */
+    protected $posts;
+
 
     /**
      * @return mixed
@@ -83,5 +89,21 @@ class User
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param $post
+     */
+    public function addPost($post)
+    {
+        $this->posts[] = $post;
     }
 }
