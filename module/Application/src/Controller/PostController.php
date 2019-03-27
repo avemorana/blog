@@ -41,16 +41,18 @@ class PostController extends AbstractActionController
     public function indexAction()
     {
         $page = $this->params()->fromQuery('page', 1);
+        $route = $this->params()->fromRoute('route');
 
         $query = $this->entityManager->getRepository(Post::class)
             ->getAllPost();
         $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(3);
+        $paginator->setDefaultItemCountPerPage(5);
         $paginator->setCurrentPageNumber($page);
 
         return new ViewModel([
-            'posts' => $paginator
+            'posts' => $paginator,
+            'route' => $route
         ]);
     }
 
@@ -142,5 +144,27 @@ class PostController extends AbstractActionController
             'form' => $form
         ]);
 
+    }
+
+    public function deleteAction()
+    {
+        $postId = $this->params()->fromRoute('id', -1);
+
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+
+        if ($post == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        if (!$post->isAuthor($this->identity())) {
+            return new ViewModel([
+                'error' => 'The post cannot be deleted'
+            ]);
+        }
+
+        $this->postManager->deletePost($post);
+        $this->redirect()->toRoute('home');
     }
 }

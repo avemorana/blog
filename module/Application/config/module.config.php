@@ -23,7 +23,7 @@ return [
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => Controller\PostController::class,
                         'action'     => 'index',
                     ],
                 ],

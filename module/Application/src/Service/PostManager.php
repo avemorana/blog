@@ -43,4 +43,10 @@ class PostManager
 
         $this->entityManager->flush();
     }
+
+    public function deletePost($post)
+    {
+        $this->entityManager->remove($post);
+        $this->entityManager->flush();
+    }
 }

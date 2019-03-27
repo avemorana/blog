@@ -4,6 +4,9 @@
 <?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
     <a href="/post/edit/<?php echo $post->getId() ?>">Edit</a><br>
 <?php } ?>
+<?php if ($post->isAuthor($this->identity())) { ?>
+    <a href="/post/delete/<?php echo $post->getId() ?>">Delete</a><br>
+<?php } ?>
 <span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span>
 <br>
 <span class="text-muted"><?php echo $post->getDate() ?></span>

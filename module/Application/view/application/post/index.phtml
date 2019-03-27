@@ -1,9 +1,9 @@
+<h1>Posts</h1>
 <a href="/post/add">Create new post</a>
 
 <?php
 
 foreach ($this->posts as $post) { ?>
-
     <h4>
         <a href="/post/one/<?php echo $post->getId() ?>">
             <?php echo $this->escapeHtml($post->getTitle()) ?>
@@ -21,5 +21,5 @@ foreach ($this->posts as $post) { ?>
 echo $this->paginationControl($this->posts,
     'Sliding',
     'application/partial/paginator',
-    ['route' => 'post']);
+    ['route' => $this->route]);
 ?>
