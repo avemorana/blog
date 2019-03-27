@@ -61,7 +61,7 @@ class PostController extends AbstractActionController
         $post = $this->entityManager->getRepository(Post::class)
             ->findOneById($postId);
 
-        if ($post == null){
+        if ($post == null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
@@ -79,7 +79,7 @@ class PostController extends AbstractActionController
             $data = $this->params()->fromPost();
             $form->setData($data);
 
-            if ($form->isValid()){
+            if ($form->isValid()) {
                 $data = $form->getData();
 
                 if ($this->identity() != null) {
@@ -96,6 +96,51 @@ class PostController extends AbstractActionController
             'form' => $form
         ]);
 
+
+    }
+
+    public function editAction()
+    {
+        $postId = $this->params()->fromRoute('id', -1);
+
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+
+        if ($post == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        if (!$post->isAuthor($this->identity()) || !$post->canBeEdit()) {
+            return new ViewModel([
+                'error' => 'The post cannot be edited'
+            ]);
+        }
+
+        $form = new PostForm();
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+
+                $this->postManager->updatePost($post, $data);
+                return $this->redirect()->toRoute('post', ['action' => 'one', 'id' => $postId]);
+            }
+
+        } else {
+            $data = [
+                'title' => $post->getTitle(),
+                'content' => $post->getContent(),
+            ];
+            $form->setData($data);
+        }
+
+        return new ViewModel([
+            'form' => $form
+        ]);
 
     }
 }

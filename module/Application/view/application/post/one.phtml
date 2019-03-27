@@ -1,6 +1,9 @@
 <?php $post = $this->post; ?>
 
 <h1><?php echo $post->getTitle() ?></h1>
+<?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
+    <a href="/post/edit/<?php echo $post->getId() ?>">Edit</a><br>
+<?php } ?>
 <span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span>
 <br>
 <span class="text-muted"><?php echo $post->getDate() ?></span>

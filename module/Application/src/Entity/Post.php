@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     const SHORT_CONTENT_LENGTH = 200;
+    const EDIT_POST_PERIOD = 24 * 3600;
 
     /**
      * @ORM\Id
@@ -151,5 +152,24 @@ class Post
             $short .= '...';
             return $short;
         }
+    }
+
+    public function isAuthor($login)
+    {
+        if ($this->user->getLogin() === $login) {
+            return true;
+        }
+        return false;
+    }
+
+    public function canBeEdit()
+    {
+        $now = time();
+        $lastDate = strtotime($this->date) + self::EDIT_POST_PERIOD;
+
+        if ($now < $lastDate) {
+            return true;
+        }
+        return false;
     }
 }

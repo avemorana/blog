@@ -20,7 +20,7 @@ class PostRepository extends EntityRepository
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryBuilder->select('p')
             ->from(Post::class, 'p')
-            ->orderBy('p.date', 'ASC');
+            ->orderBy('p.date', 'DESC');
 
         $posts = $queryBuilder->getQuery();
         return $posts;

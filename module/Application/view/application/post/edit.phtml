@@ -1,0 +1,52 @@
+<?php
+
+if (isset($this->error)) {
+    echo $this->error;
+} else {
+
+
+    $form = $this->form;
+    $form->prepare();
+
+    $form->get('title')->setAttributes([
+        'class' => 'form-control',
+    ]);
+
+    $form->get('content')->setAttributes([
+        'class' => 'form-control',
+    ]);
+
+    $form->get('submit')->setAttributes([
+        'class' => 'btn btn-success',
+    ]);
+    ?>
+
+    <div class="row">
+        <div class="col-md-8">
+            <?php echo $this->form()->openTag($form) ?>
+
+            <div class="form-group">
+                <?php
+                echo $this->formLabel($form->get('title'));
+                echo $this->formElement($form->get('title'));
+                echo $this->formElementErrors($form->get('title'));
+                ?>
+            </div>
+
+            <div class="form-group">
+                <?php
+                echo $this->formLabel($form->get('content'));
+                echo $this->formElement($form->get('content'));
+                echo $this->formElementErrors($form->get('content'));
+                ?>
+            </div>
+
+            <?php
+            echo $this->formElement($form->get('submit'));
+            ?>
+
+            <?php echo $this->form()->closeTag($form) ?>
+        </div>
+    </div>
+
+<?php } ?>

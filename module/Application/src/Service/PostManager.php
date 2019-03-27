@@ -35,4 +35,12 @@ class PostManager
         $this->entityManager->persist($post);
         $this->entityManager->flush();
     }
+
+    public function updatePost($post, $data)
+    {
+        $post->setTitle($data['title']);
+        $post->setContent($data['content']);
+
+        $this->entityManager->flush();
+    }
 }
