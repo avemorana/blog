@@ -54,6 +54,23 @@ class PostController extends AbstractActionController
         ]);
     }
 
+    public function oneAction()
+    {
+        $postId = $this->params()->fromRoute('id', -1);
+
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+
+        if ($post == null){
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        return new ViewModel([
+            'post' => $post
+        ]);
+    }
+
     public function addAction()
     {
         $form = new PostForm();

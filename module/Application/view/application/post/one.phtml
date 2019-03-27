@@ -1,0 +1,7 @@
+<?php $post = $this->post; ?>
+
+<h1><?php echo $post->getTitle() ?></h1>
+<span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span>
+<br>
+<span class="text-muted"><?php echo $post->getDate() ?></span>
+<p><?php echo $post->getContent() ?></p>
