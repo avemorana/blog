@@ -16,6 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post
 {
+    const SHORT_CONTENT_LENGTH = 200;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -135,5 +137,19 @@ class Post
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getShortContent()
+    {
+        if (strlen($this->content) < self::SHORT_CONTENT_LENGTH) {
+            return $this->content;
+        } else {
+            $short = mb_substr($this->content, 0, self::SHORT_CONTENT_LENGTH);
+            $short .= '...';
+            return $short;
+        }
     }
 }

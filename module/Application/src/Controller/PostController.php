@@ -13,6 +13,9 @@ use Application\Form\PostForm;
 use User\Entity\User;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\Paginator\Paginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as DoctrineAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 
 class PostController extends AbstractActionController
 {
@@ -37,10 +40,17 @@ class PostController extends AbstractActionController
 
     public function indexAction()
     {
-        $posts = $this->entityManager->getRepository(Post::class)->findAll();
+        $page = $this->params()->fromQuery('page', 1);
+
+        $query = $this->entityManager->getRepository(Post::class)
+            ->getAllPost();
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(3);
+        $paginator->setCurrentPageNumber($page);
 
         return new ViewModel([
-            'posts' => $posts
+            'posts' => $paginator
         ]);
     }
 

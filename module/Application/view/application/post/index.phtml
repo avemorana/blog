@@ -2,11 +2,18 @@
 
 foreach ($this->posts as $post) { ?>
 
-    <h4><?php echo $post->getTitle() ?></h4>
-    <?php echo $post->getUser()->getLogin() ?>
-    <?php echo $post->getDate() ?>
+    <h4><?php echo $this->escapeHtml($post->getTitle()) ?></h4>
+    <?php echo $this->escapeHtml($post->getUser()->getLogin()) ?>
+    <?php echo $this->escapeHtml($post->getDate()) ?>
     <br>
-    <?php echo $post->getContent() ?>
+    <?php echo $this->escapeHtml($post->getShortContent()) ?>
     <br><br>
 
 <?php } ?>
+
+<?php
+echo $this->paginationControl($this->posts,
+    'Sliding',
+    'application/partial/paginator',
+    ['route' => 'post']);
+?>
