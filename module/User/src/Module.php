@@ -22,14 +22,6 @@ class Module
         return include __DIR__ . '/../config/module.config.php';
     }
 
-//    public function onBootstrap(MvcEvent $event)
-//    {
-//        $admin = $event->getApplication();
-//        $serviceManager = $admin->getServiceManager();
-//
-//        $sessionManager = $serviceManager->get(SessionManager::class);
-//    }
-
     public function onBootstrap(MvcEvent $event)
     {
         // Get event manager.
@@ -38,6 +30,19 @@ class Module
         // Register the event listener method.
         $sharedEventManager->attach(AbstractActionController::class,
             MvcEvent::EVENT_DISPATCH, [$this, 'onDispatch'], 100);
+
+        $sessionManager = $event->getApplication()->getServiceManager()->get('Zend\Session\SessionManager');
+        $this->forgetInvalidSession($sessionManager);
+    }
+
+    protected function forgetInvalidSession($sessionManager)
+    {
+        try {
+            $sessionManager->start();
+            return;
+        } catch (\Exception $e) {
+        }
+        session_unset();
     }
 
     public function onDispatch(MvcEvent $event)

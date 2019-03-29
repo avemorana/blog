@@ -17,18 +17,16 @@ return [
         'migrations_configuration' => [
             'orm_default' => [
                 'directory' => 'data/Migrations',
-                'name'      => 'Doctrine Database Migrations',
+                'name' => 'Doctrine Database Migrations',
                 'namespace' => 'Migrations',
-                'table'     => 'migrations',
+                'table' => 'migrations',
             ],
         ],
     ],
     // Настройка сессии.
     'session_config' => [
-        // Срок действия cookie сессии истечет через 1 час.
-        'cookie_lifetime' => 60*60*1,
-        // Данные сессии будут храниться на сервере до 30 дней.
-        'gc_maxlifetime'     => 60*60*24*30,
+        'cookie_lifetime' => 0,
+        'gc_maxlifetime' => 60 * 60 * 24 * 30,
     ],
     // Настройка менеджера сессий.
     'session_manager' => [

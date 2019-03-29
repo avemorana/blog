@@ -30,12 +30,20 @@ class AuthController extends AbstractActionController
      */
     private $userManager;
 
+    /**
+     * Session container.
+     * @var Zend\Session\Container
+     */
+    private $sessionContainer;
 
-    public function __construct($entityManager, $authManager, $userManager)
+
+    public function __construct($entityManager, $authManager,
+                                $userManager, $sessionContainer)
     {
         $this->entityManager = $entityManager;
         $this->authManager = $authManager;
         $this->userManager = $userManager;
+        $this->sessionContainer = $sessionContainer;
     }
 
     /**
@@ -64,6 +72,7 @@ class AuthController extends AbstractActionController
                     $isLoginError = true;
                     $form->get('login')->setMessages($result->getMessages());
                 } else {
+                    $this->sessionContainer->authorized = true;
                     return $this->redirect()->toRoute('home');
                 }
             } else {

@@ -107,7 +107,7 @@ return [
         ],
     ],
     'session_containers' => [
-        'ContainerNamespace'
+        'AuthContainer'
     ],
     'access_filter' => [
         'options' => [
