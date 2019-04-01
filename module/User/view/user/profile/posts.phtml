@@ -2,23 +2,22 @@
 <a href="/post/add">Create new post</a>
 
 <?php
-
 foreach ($this->posts as $post) { ?>
     <h4>
         <a href="/post/one/<?php echo $post->getId() ?>">
             <?php echo $this->escapeHtml($post->getTitle()) ?>
         </a>
     </h4>
-    <?php echo $this->escapeHtml($post->getUser()->getLogin()) ?>
     <?php echo $this->escapeHtml($post->getDate()) ?>
     <br>
     <?php echo $this->escapeHtml($post->getShortContent()) ?>
     <br><br>
-
 <?php } ?>
+
 
 <?php
 echo $this->paginationControl($this->posts,
     'Sliding',
-    'application/partial/paginator');
-?>
+    'application/partial/paginator',
+    ['route' => 'profile', 'action' => 'posts']);
+//?>

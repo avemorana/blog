@@ -60,12 +60,27 @@ return [
                     ],
                 ],
             ],
+            'profile' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/profile[/:action[/:id]]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id' => '[0-9]*'
+                    ],
+                    'defaults' => [
+                        'controller' => Controller\ProfileController::class,
+                        'action' => 'index',
+                    ],
+                ],
+            ],
         ],
     ],
     'controllers' => [
         'factories' => [
             Controller\UserController::class => Controller\Factory\UserControllerFactory::class,
             Controller\AuthController::class => Controller\Factory\AuthControllerFactory::class,
+            Controller\ProfileController::class => Controller\Factory\ProfileControllerFactory::class
         ],
     ],
     'view_manager' => [

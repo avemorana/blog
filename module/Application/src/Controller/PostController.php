@@ -41,7 +41,6 @@ class PostController extends AbstractActionController
     public function indexAction()
     {
         $page = $this->params()->fromQuery('page', 1);
-        $route = $this->params()->fromRoute('route');
 
         $query = $this->entityManager->getRepository(Post::class)
             ->getAllPost();
@@ -52,7 +51,6 @@ class PostController extends AbstractActionController
 
         return new ViewModel([
             'posts' => $paginator,
-            'route' => $route
         ]);
     }
 

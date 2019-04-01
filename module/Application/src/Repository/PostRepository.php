@@ -25,4 +25,18 @@ class PostRepository extends EntityRepository
         $posts = $queryBuilder->getQuery();
         return $posts;
     }
+
+    public function getPostsByUser($userId)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('p')
+            ->from(Post::class, 'p')
+            ->where('p.user = ' . $userId)
+            ->orderBy('p.date', 'DESC');
+
+        $posts = $queryBuilder->getQuery();
+        return $posts;
+    }
 }

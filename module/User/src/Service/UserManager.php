@@ -26,7 +26,7 @@ class UserManager
 
     public function addNewUser($data)
     {
-        if($this->checkUserExists($data['login'])) {
+        if ($this->checkUserExists($data['login'])) {
             return "Login '" . $data['login'] . "' already in use";
         }
 
@@ -42,7 +42,7 @@ class UserManager
 
     public function updateUser($user, $data)
     {
-        if($this->checkUserExists($data['login'])) {
+        if ($this->checkUserExists($data['login'])) {
             return "Login '" . $data['login'] . "' already in use";
         }
 
@@ -58,11 +58,17 @@ class UserManager
         $this->entityManager->flush();
     }
 
-    public function checkUserExists($login) {
-
+    public function checkUserExists($login)
+    {
         $user = $this->entityManager->getRepository(User::class)
             ->findOneByLogin($login);
 
         return $user !== null;
+    }
+
+    public function updatePassword($data)
+    {
+        $data['user']->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
+        $this->entityManager->flush();
     }
 }
