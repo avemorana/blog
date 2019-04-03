@@ -8,7 +8,9 @@
 
 namespace Application\Controller;
 
+use Application\Entity\Comment;
 use Application\Entity\Post;
+use Application\Form\CommentForm;
 use Application\Form\PostForm;
 use User\Entity\User;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -66,8 +68,39 @@ class PostController extends AbstractActionController
             return;
         }
 
+        $page = $this->params()->fromQuery('page', 1);
+
+        $query = $this->entityManager->getRepository(Comment::class)
+            ->getCommentsByPostId($postId);
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(5);
+        $paginator->setCurrentPageNumber($page);
+
+        $form = new CommentForm();
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+
+                if ($this->identity() != null) {
+                    $user = $this->entityManager->getRepository(User::class)
+                        ->findOneByLogin($this->identity());
+                    $data['user'] = $user;
+                }
+                $data['post'] = $post;
+            }
+            $this->postManager->addComment($data);
+            return $this->redirect()->refresh();
+        }
+
         return new ViewModel([
-            'post' => $post
+            'post' => $post,
+            'form' => $form,
+            'comments' => $paginator
         ]);
     }
 

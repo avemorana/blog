@@ -42,6 +42,12 @@ class User
      */
     protected $posts;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Comment", mappedBy="user")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     */
+    protected $comments;
+
 
     /**
      * @return mixed
@@ -106,4 +112,22 @@ class User
     {
         $this->posts[] = $post;
     }
+
+    /**
+     * @return array
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param $comment
+     */
+    public function addComment($comment)
+    {
+        $this->comments[] = $comment;
+    }
+
+
 }

@@ -8,6 +8,7 @@
 
 namespace Application\Service;
 
+use Application\Entity\Comment;
 use Application\Entity\Post;
 
 class PostManager
@@ -47,6 +48,19 @@ class PostManager
     public function deletePost($post)
     {
         $this->entityManager->remove($post);
+        $this->entityManager->flush();
+    }
+
+    public function addComment($data)
+    {
+        $comment = new Comment();
+
+        $comment->setUser($data['user']);
+        $comment->setPost($data['post']);
+        $comment->setContent($data['content']);
+        $comment->setDate(date('Y-m-d H:i:s'));
+
+        $this->entityManager->persist($comment);
         $this->entityManager->flush();
     }
 }

@@ -64,10 +64,10 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'login', 'password', 'posts'];
+            return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments'];
         }
 
-        return ['__isInitialized__', 'id', 'login', 'password', 'posts'];
+        return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments'];
     }
 
     /**
@@ -263,6 +263,28 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addPost', [$post]);
 
         return parent::addPost($post);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getComments()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComments', []);
+
+        return parent::getComments();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addComment($comment)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addComment', [$comment]);
+
+        return parent::addComment($comment);
     }
 
 }

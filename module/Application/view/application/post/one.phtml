@@ -11,3 +11,54 @@
 <br>
 <span class="text-muted"><?php echo $post->getDate() ?></span>
 <p><?php echo $post->getContent() ?></p>
+
+<?php
+$form = $this->form;
+$form->prepare();
+
+$form->get('content')->setAttributes([
+    'class' => 'form-control',
+]);
+
+$form->get('submit')->setAttributes([
+    'class' => 'btn btn-success',
+]);
+?>
+<hr>
+<div class="row">
+    <div class="col-md-8">
+        <?php echo $this->form()->openTag($form) ?>
+
+        <div class="form-group">
+            <?php
+            echo $this->formLabel($form->get('content'));
+            echo $this->formElement($form->get('content'));
+            echo $this->formElementErrors($form->get('content'));
+            ?>
+        </div>
+
+        <?php
+        echo $this->formElement($form->get('submit'));
+        ?>
+
+        <?php echo $this->form()->closeTag($form) ?>
+    </div>
+</div>
+
+<div>
+    <ul>
+        <?php foreach ($this->comments as $comment) { ?>
+            <li>
+                <?php echo $comment->getUser()->getLogin() ?>
+                <?php echo $comment->getDate() ?><br>
+                <?php echo $comment->getContent() ?>
+            </li>
+        <?php } ?>
+    </ul>
+    <?php
+    echo $this->paginationControl($this->comments,
+        'Sliding',
+        'application/partial/paginator',
+        ['route' => 'post', 'action' => 'one', 'id' => $post->getId()]);
+    ?>
+</div>

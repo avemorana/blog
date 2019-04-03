@@ -53,6 +53,12 @@ class Post
     protected $user;
 
     /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\Comment", mappedBy="post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="post_id")
+     */
+    protected $comments;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -130,6 +136,7 @@ class Post
     public function setUser($user): void
     {
         $this->user = $user;
+        $user->addPost($this);
     }
 
     /**
@@ -171,5 +178,21 @@ class Post
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param $comment
+     */
+    public function addComment($comment)
+    {
+        $this->comments[] = $comment;
     }
 }
