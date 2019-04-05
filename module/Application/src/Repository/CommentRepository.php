@@ -23,8 +23,8 @@ class CommentRepository extends EntityRepository
             ->where('c.postId = ' . $postId)
             ->orderBy('c.date', 'DESC');
 
-        $posts = $queryBuilder->getQuery();
-        return $posts;
+        $comments = $queryBuilder->getQuery();
+        return $comments;
     }
 
     public function getCommentsByUserId($userId)
@@ -37,7 +37,7 @@ class CommentRepository extends EntityRepository
             ->where('c.userId = ' . $userId)
             ->orderBy('c.date', 'DESC');
 
-        $posts = $queryBuilder->getQuery();
-        return $posts;
+        $comments = $queryBuilder->getQuery();
+        return $comments;
     }
 }

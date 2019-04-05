@@ -8,6 +8,7 @@
 
 namespace User\Controller;
 
+use Application\Entity\Comment;
 use Application\Entity\Post;
 use User\Entity\User;
 use User\Form\ChangePasswordForm;
@@ -103,6 +104,22 @@ class ProfileController extends AbstractActionController
         return new ViewModel([
             'form' => $form,
             'message' => $message
+        ]);
+    }
+
+    public function commentsAction()
+    {
+        $page = $this->params()->fromQuery('page', 1);
+
+        $query = $this->entityManager->getRepository(Comment::class)
+            ->getCommentsByUserId($this->user->getId());
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(9);
+        $paginator->setCurrentPageNumber($page);
+
+        return new ViewModel([
+            'comments' => $paginator
         ]);
     }
 

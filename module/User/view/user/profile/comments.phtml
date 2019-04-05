@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-9">
+        <h1 class="display-4">My comments</h1>
+    </div>
+</div>
+
+<div class="list-group">
+    <?php foreach ($this->comments as $comment) { ?>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>
+                <?php echo $comment->getContent() ?>
+                <i><a href="/post/one/<?php echo $comment->getPost()->getId() ?>"
+                      class="text-muted">
+                    <?php echo $comment->getPost()->getTitle() ?>
+                        ( <?php echo $comment->getPost()->getDate() ?>)
+                </a></i>
+            </span>
+
+            <span class="badge badge-dark badge-pill">
+                    <?php echo $comment->getDate() ?>
+            </span>
+        </li>
+    <?php } ?>
+</div>
+
+<br>
+<?php
+echo $this->paginationControl($this->comments,
+    'Sliding',
+    'application/partial/paginator',
+    ['route' => 'profile', 'action' => 'comments']);
+?>
