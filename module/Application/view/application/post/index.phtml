@@ -1,21 +1,35 @@
-<h1>Posts</h1>
-<a href="/post/add">Create new post</a>
+<div class="row">
+    <div class="col-md-9">
+        <h1 class="display-4">Posts</h1>
+    </div>
+    <div class="col-md-3">
+        <a href="/post/add" class="btn btn-outline-dark">Create new post</a>
+    </div>
+</div>
 
-<?php
+<div class="list-group">
+    <?php foreach ($this->posts as $post) { ?>
+        <li class="list-group-item justify-content-between align-items-center">
+            <div class="row">
+                <div class="col-md-9">
+                    <h5>
+                        <a href="/post/one/<?php echo $post->getId() ?>">
+                            <?php echo $this->escapeHtml($post->getTitle()) ?>
+                        </a>
+                    </h5>
+                </div>
+                <div class="col-md-1">
+                    <span class="badge badge-info badge-pill">
+                        <?php echo $this->escapeHtml($post->getUser()->getLogin()) ?>
+                        <?php echo $this->escapeHtml($post->getDate()) ?>
+                    </span>
+                </div>
+            </div>
+            <?php echo $this->escapeHtml($post->getShortContent()) ?>
+        </li>
+    <?php } ?>
 
-foreach ($this->posts as $post) { ?>
-    <h4>
-        <a href="/post/one/<?php echo $post->getId() ?>">
-            <?php echo $this->escapeHtml($post->getTitle()) ?>
-        </a>
-    </h4>
-    <?php echo $this->escapeHtml($post->getUser()->getLogin()) ?>
-    <?php echo $this->escapeHtml($post->getDate()) ?>
-    <br>
-    <?php echo $this->escapeHtml($post->getShortContent()) ?>
-    <br><br>
-
-<?php } ?>
+</div>
 
 <?php
 echo $this->paginationControl($this->posts,

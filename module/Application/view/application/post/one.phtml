@@ -1,16 +1,26 @@
 <?php $post = $this->post; ?>
 
-<h1><?php echo $post->getTitle() ?></h1>
-<?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
-    <a href="/post/edit/<?php echo $post->getId() ?>">Edit</a><br>
-<?php } ?>
-<?php if ($post->isAuthor($this->identity())) { ?>
-    <a href="/post/delete/<?php echo $post->getId() ?>">Delete</a><br>
-<?php } ?>
-<span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span>
-<br>
-<span class="text-muted"><?php echo $post->getDate() ?></span>
-<p><?php echo $post->getContent() ?></p>
+<div class="row">
+    <div class="col-md-9">
+        <h1 class="display-4"><?php echo $post->getTitle() ?></h1>
+    </div>
+    <div class="col-md-3">
+        <?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
+            <a href="/post/edit/<?php echo $post->getId() ?>" class="btn btn-outline-dark">Edit</a>
+        <?php } ?>
+        <?php if ($post->isAuthor($this->identity())) { ?>
+            <a href="/post/delete/<?php echo $post->getId() ?>" class="btn btn-outline-dark">Delete</a>
+        <?php } ?>
+    </div>
+</div>
+
+
+<b><span class="text-muted">Author: </span></b>
+<i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
+<b><span class="text-muted">Date: </span></b>
+<i><span class="text-muted"><?php echo $post->getDate() ?></span></i>
+
+<p class="lead" style="margin: 10px 0 10px 0"><?php echo $post->getContent() ?></p>
 
 <?php
 $form = $this->form;
@@ -18,6 +28,7 @@ $form->prepare();
 
 $form->get('content')->setAttributes([
     'class' => 'form-control',
+    'style' => 'width: 40%'
 ]);
 
 $form->get('submit')->setAttributes([
@@ -25,40 +36,41 @@ $form->get('submit')->setAttributes([
 ]);
 ?>
 <hr>
-<div class="row">
-    <div class="col-md-8">
-        <?php echo $this->form()->openTag($form) ?>
+<div>
+    <?php echo $this->form()->openTag($form) ?>
 
-        <div class="form-group">
-            <?php
-            echo $this->formLabel($form->get('content'));
-            echo $this->formElement($form->get('content'));
-            echo $this->formElementErrors($form->get('content'));
-            ?>
-        </div>
-
+    <div class="form-inline">
         <?php
+        echo $this->formLabel($form->get('content'));
+        echo $this->formElement($form->get('content'));
+        echo $this->formElementErrors($form->get('content'));
         echo $this->formElement($form->get('submit'));
         ?>
-
-        <?php echo $this->form()->closeTag($form) ?>
     </div>
+
+    <?php echo $this->form()->closeTag($form) ?>
 </div>
 
-<div>
-    <ul>
+<div class="style-container">
+    <ul class="list-group">
         <?php foreach ($this->comments as $comment) { ?>
-            <li>
-                <?php echo $comment->getUser()->getLogin() ?>
-                <?php echo $comment->getDate() ?><br>
-                <?php echo $comment->getContent() ?>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+
+                <span><?php echo $comment->getContent() ?></span>
+                <span class="badge badge-dark badge-pill">
+                    <?php echo $comment->getUser()->getLogin() ?>
+                    <?php echo $comment->getDate() ?>
+                </span>
             </li>
         <?php } ?>
     </ul>
+
+    <br>
     <?php
     echo $this->paginationControl($this->comments,
         'Sliding',
         'application/partial/paginator',
         ['route' => 'post', 'action' => 'one', 'id' => $post->getId()]);
     ?>
+
 </div>

@@ -33,7 +33,7 @@ class CommentForm extends Form
                 'autocomplete' => 'off',
             ],
             'options' => [
-                'label' => 'Comment',
+                'label' => 'New comment:',
             ],
         ]);
 
