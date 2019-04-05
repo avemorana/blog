@@ -167,6 +167,7 @@ class PostController extends AbstractActionController
             $data = [
                 'title' => $post->getTitle(),
                 'content' => $post->getContent(),
+                'tags' => $this->postManager->convertTagsToString($post)
             ];
             $form->setData($data);
         }

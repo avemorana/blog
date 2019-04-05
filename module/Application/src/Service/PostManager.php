@@ -48,6 +48,7 @@ class PostManager
         }
 
         $tags = explode(',', $tagString);
+        $tags = array_unique($tags);
         foreach ($tags as $tagName){
             $tagName = strtolower(trim($tagName));
             if (empty($tagName)){
@@ -67,10 +68,28 @@ class PostManager
         }
     }
 
+    public function convertTagsToString($post)
+    {
+        $tags = $post->getTags();
+        $tagCount = count($tags);
+        $tagString = '';
+        $i = 0;
+        foreach ($tags as $tag){
+            $i++;
+            $tagString .= $tag->getName();
+            if ($i < $tagCount){
+                $tagString .= ', ';
+            }
+        }
+
+        return $tagString;
+    }
+
     public function updatePost($post, $data)
     {
         $post->setTitle($data['title']);
         $post->setContent($data['content']);
+        $this->addTagsToPost($data['tags'], $post);
 
         $this->entityManager->flush();
     }
