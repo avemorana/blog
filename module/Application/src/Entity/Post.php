@@ -8,6 +8,7 @@
 
 namespace Application\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,6 +58,21 @@ class Post
      * @ORM\JoinColumn(name="post_id", referencedColumnName="post_id")
      */
     protected $comments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\Application\Entity\Tag", inversedBy="post")
+     * @ORM\JoinTable(name="post_tag",
+     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="post_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="tag_id", referencedColumnName="tag_id")}
+     *      )
+     */
+    protected $tags;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -194,5 +210,23 @@ class Post
     public function addComment($comment)
     {
         $this->comments[] = $comment;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    public function addTag($tag)
+    {
+        $this->tags[] = $tag;
+    }
+
+    public function removeTagAssociation($tag)
+    {
+        $this->tags->removeElement($tag);
     }
 }

@@ -50,6 +50,17 @@ class PostForm extends Form
         ]);
 
         $this->add([
+            'type'  => 'text',
+            'name' => 'tags',
+            'attributes' => [
+                'id' => 'tags'
+            ],
+            'options' => [
+                'label' => 'Tags',
+            ],
+        ]);
+
+        $this->add([
             'type' => 'submit',
             'name' => 'submit',
             'attributes' => [
@@ -98,5 +109,25 @@ class PostForm extends Form
                 ],
             ],
         ]);
+
+        $inputFilter->add([
+            'name'     => 'tags',
+            'required' => true,
+            'filters'  => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+                ['name' => 'StripNewlines'],
+            ],
+            'validators' => [
+                [
+                    'name'    => 'StringLength',
+                    'options' => [
+                        'min' => 1,
+                        'max' => 1024
+                    ],
+                ],
+            ],
+        ]);
+
     }
 }

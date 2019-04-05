@@ -10,6 +10,8 @@ namespace Application\Service;
 
 use Application\Entity\Comment;
 use Application\Entity\Post;
+use Application\Entity\Tag;
+use Zend\Filter\StaticFilter;
 
 class PostManager
 {
@@ -34,7 +36,35 @@ class PostManager
         $post->setUser($data['user']);
 
         $this->entityManager->persist($post);
+        $this->addTagsToPost($data['tags'], $post);
         $this->entityManager->flush();
+    }
+
+    public function addTagsToPost($tagString, $post)
+    {
+        $tags = $post->getTags();
+        foreach ($tags as $tag){
+            $post->removeTagAssociation($tag);
+        }
+
+        $tags = explode(',', $tagString);
+        foreach ($tags as $tagName){
+            $tagName = strtolower(trim($tagName));
+            if (empty($tagName)){
+                continue;
+            }
+
+            $tag = $this->entityManager->getRepository(Tag::class)
+                ->findOneByName($tagName);
+            if ($tag == null){
+                $tag = new Tag();
+            }
+            $tag->setName($tagName);
+            $tag->addPost($post);
+
+            $this->entityManager->persist($tag);
+            $post->addTag($tag);
+        }
     }
 
     public function updatePost($post, $data)
