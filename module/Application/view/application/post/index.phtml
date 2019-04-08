@@ -31,8 +31,10 @@
 
 </div>
 
+<br>
 <?php
 echo $this->paginationControl($this->posts,
     'Sliding',
-    'application/partial/paginator');
+    'application/partial/paginator',
+    ['params' => $this->params]);
 ?>

@@ -22,6 +22,17 @@
 
 <p class="lead" style="margin: 10px 0 10px 0"><?php echo $post->getContent() ?></p>
 
+<b>Tags:</b>
+<?php
+$count = count($post->getTags()) - 1;
+foreach ($post->getTags() as $key=>$tag) { ?>
+    <a href="/post?tag=<?php echo $tag->getId()?>">
+        <?php echo $tag->getName()?></a
+    ><?php if ($key != $count) {
+            echo ',';
+        } ?>
+<?php } ?>
+
 <?php
 $form = $this->form;
 $form->prepare();

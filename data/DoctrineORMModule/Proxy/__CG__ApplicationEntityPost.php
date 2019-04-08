@@ -64,10 +64,10 @@ class Post extends \Application\Entity\Post implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments'];
+            return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments', 'tags'];
         }
 
-        return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments'];
+        return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments', 'tags'];
     }
 
     /**
@@ -351,6 +351,39 @@ class Post extends \Application\Entity\Post implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addComment', [$comment]);
 
         return parent::addComment($comment);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getTags()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTags', []);
+
+        return parent::getTags();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addTag($tag)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addTag', [$tag]);
+
+        return parent::addTag($tag);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeTagAssociation($tag)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTagAssociation', [$tag]);
+
+        return parent::removeTagAssociation($tag);
     }
 
 }

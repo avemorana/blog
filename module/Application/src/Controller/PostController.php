@@ -43,16 +43,18 @@ class PostController extends AbstractActionController
     public function indexAction()
     {
         $page = $this->params()->fromQuery('page', 1);
+        $tag = $this->params()->fromQuery('tag', -1);
 
         $query = $this->entityManager->getRepository(Post::class)
-            ->getAllPost();
+            ->getAllPost(array('tag' => $tag));
         $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(5);
+        $paginator->setDefaultItemCountPerPage(2);
         $paginator->setCurrentPageNumber($page);
 
         return new ViewModel([
             'posts' => $paginator,
+            'params' => ['tag' => $tag]
         ]);
     }
 
