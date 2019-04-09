@@ -43,4 +43,31 @@ class PostRepository extends EntityRepository
         $posts = $queryBuilder->getQuery();
         return $posts;
     }
+
+    public function getPostsHavingAnyTag()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+
+        $queryBuilder->select('p')->from(Post::class, 'p');
+        $queryBuilder->join('p.tags', 't');
+        $queryBuilder->orderBy('p.date', 'DESC');
+        $posts = $queryBuilder->getQuery()->getResult();
+        return $posts;
+    }
+
+    public function getPostsByTag($tagId)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('p')->from(Post::class, 'p');
+        $queryBuilder->join('p.tags', 't');
+        $queryBuilder->where('t.id = ' . $tagId);
+        $queryBuilder->orderBy('p.date', 'DESC');
+
+        $posts = $queryBuilder->getQuery()->getResult();
+        return $posts;
+    }
 }

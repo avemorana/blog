@@ -112,4 +112,25 @@ class PostManager
         $this->entityManager->persist($comment);
         $this->entityManager->flush();
     }
+
+    public function getTagCloud()
+    {
+        $tagCloud = [];
+        $posts = $this->entityManager->getRepository(Post::class)
+            ->getPostsHavingAnyTag();
+        $totalPostCount = count($posts);
+        $tags =$this->entityManager->getRepository(Tag::class)->findAll();
+
+        foreach ($tags as $tag){
+            $postsByTag = $this->entityManager->getRepository(Post::class)
+                ->getPostsByTag($tag->getId());
+            $postCount = count($postsByTag);
+            if ($postCount > 0){
+                $tagCloud[$tag->getId()] = ['name' => $tag->getName(),
+                    'count' => $postCount/$totalPostCount];
+            }
+        }
+
+        return $tagCloud;
+    }
 }

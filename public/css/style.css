@@ -34,6 +34,7 @@
 
 .style-container {
     margin-top: 15px;
+    width: 90%;
 }
 
 form ul {
@@ -55,4 +56,22 @@ form ul li {
 
 .form-inline input {
     margin-left: 10px;
+}
+
+.sidenav{
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    z-index: 1; /* Stay on top */
+    top: 20%; /* Stay at the top */
+    right: 0;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 20px;
+    margin-right: 20px;
+    /*border: #b21f2d 1px solid;*/
+}
+
+.main {
+    margin-right: 20%; /* Same as the width of the sidebar */
+    /*padding: 0px 10px;*/
 }

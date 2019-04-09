@@ -49,12 +49,15 @@ class PostController extends AbstractActionController
             ->getAllPost(array('tag' => $tag));
         $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
         $paginator = new Paginator($adapter);
-        $paginator->setDefaultItemCountPerPage(2);
+        $paginator->setDefaultItemCountPerPage(5);
         $paginator->setCurrentPageNumber($page);
+
+        $tagCloud = $this->postManager->getTagCloud();
 
         return new ViewModel([
             'posts' => $paginator,
-            'params' => ['tag' => $tag]
+            'params' => ['tag' => $tag],
+            'tagCloud' => $tagCloud
         ]);
     }
 
