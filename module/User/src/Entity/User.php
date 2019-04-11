@@ -48,6 +48,11 @@ class User
      */
     protected $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\SavedPost", mappedBy="user")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     */
+    protected $savedPosts;
 
     /**
      * @return mixed
@@ -129,5 +134,20 @@ class User
         $this->comments[] = $comment;
     }
 
+    /**
+     * @return array
+     */
+    public function getSavedPosts()
+    {
+        return $this->savedPosts;
+    }
+
+    /**
+     * @param $savedPost
+     */
+    public function addSavedPost($savedPost)
+    {
+        $this->savedPosts[] = $savedPost;
+    }
 
 }

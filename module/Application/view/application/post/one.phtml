@@ -14,13 +14,22 @@
     </div>
 </div>
 
+<span>
+    <?php if ($this->isSaved) { ?>
+        <a href="/post/deletesaved/<?php echo $post->getId() ?>" title="Delete from Saved"><i class="fas fa-star"></i></a>
+    <?php } else { ?>
+        <a href="/post/addtosaved/<?php echo $post->getId() ?>" title="Add to Saved"><i class="far fa-star"></i></a>
+    <?php } ?>
+</span>
 
-<b><span class="text-muted">Author: </span></b>
-<i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
-<b><span class="text-muted">Date: </span></b>
-<i><span class="text-muted"><?php echo $post->getDate() ?></span></i>
+<span class="float-right">
+    <b><span class="text-muted">Author: </span></b>
+    <i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
+    <b><span class="text-muted">Date: </span></b>
+    <i><span class="text-muted"><?php echo $post->getDate() ?></span></i>
+</span>
 
-<p class="lead" style="margin: 10px 0 10px 0"><?php echo $post->getContent() ?></p>
+<p class="lead text-justify" style="margin: 10px 0 10px 0"><?php echo $post->getContent() ?></p>
 
 <?php $count = count($post->getTags()) - 1;
 if ($count >= 0) { ?>
@@ -86,3 +95,4 @@ $form->get('submit')->setAttributes([
     ?>
 
 </div>
+

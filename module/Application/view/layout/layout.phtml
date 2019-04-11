@@ -23,9 +23,11 @@
     <!-- Scripts -->
     <?= $this->headScript()
         ->prependFile($this->basePath('js/bootstrap.min.js'))
-        ->prependFile($this->basePath('js/jquery-ui.min.js'))
+        ->prependFile($this->basePath('fonts/fontawesome-all.js'))
+            ->prependFile($this->basePath('js/jquery-ui.min.js'))
         ->prependFile($this->basePath('js/jquery-3.1.0.min.js'))
     ?>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
 </head>
 <body>
 

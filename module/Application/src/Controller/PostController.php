@@ -10,6 +10,7 @@ namespace Application\Controller;
 
 use Application\Entity\Comment;
 use Application\Entity\Post;
+use Application\Entity\SavedPost;
 use Application\Form\CommentForm;
 use Application\Form\PostForm;
 use User\Entity\User;
@@ -84,6 +85,9 @@ class PostController extends AbstractActionController
 
         $form = new CommentForm();
 
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByLogin($this->identity());
+
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $form->setData($data);
@@ -92,8 +96,6 @@ class PostController extends AbstractActionController
                 $data = $form->getData();
 
                 if ($this->identity() != null) {
-                    $user = $this->entityManager->getRepository(User::class)
-                        ->findOneByLogin($this->identity());
                     $data['user'] = $user;
                 }
                 $data['post'] = $post;
@@ -102,10 +104,14 @@ class PostController extends AbstractActionController
             return $this->redirect()->refresh();
         }
 
+        $isSaved = $this->entityManager->getRepository(SavedPost::class)
+            ->isSavedPost($post->getId(), $user->getId());
+
         return new ViewModel([
             'post' => $post,
             'form' => $form,
-            'comments' => $paginator
+            'comments' => $paginator,
+            'isSaved' => $isSaved
         ]);
     }
 
@@ -203,5 +209,37 @@ class PostController extends AbstractActionController
 
         $this->postManager->deletePost($post);
         $this->redirect()->toRoute('home');
+    }
+
+    public function addtosavedAction()
+    {
+        $postId = $this->params()->fromRoute('id', -1);
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+        if ($post == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByLogin($this->identity());
+
+        $this->postManager->addPostToSaved($user, $post);
+        $this->redirect()->toRoute('post', ['action' => 'one', 'id' => $postId]);
+    }
+
+    public function deletesavedAction()
+    {
+        $postId = $this->params()->fromRoute('id', -1);
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+        if ($post == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByLogin($this->identity());
+
+        $this->postManager->deletePostFromSaved($user, $post);
+        $this->redirect()->toRoute('post', ['action' => 'one', 'id' => $postId]);
     }
 }

@@ -64,10 +64,10 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments'];
+            return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts'];
         }
 
-        return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments'];
+        return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts'];
     }
 
     /**
@@ -285,6 +285,28 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addComment', [$comment]);
 
         return parent::addComment($comment);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSavedPosts()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSavedPosts', []);
+
+        return parent::getSavedPosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addSavedPost($savedPost)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSavedPost', [$savedPost]);
+
+        return parent::addSavedPost($savedPost);
     }
 
 }

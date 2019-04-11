@@ -68,10 +68,17 @@ class Post
      */
     protected $tags;
 
+    /**
+     * @ORM\OneToMany(targetEntity="\Application\Entity\SavedPost", mappedBy="post")
+     * @ORM\JoinColumn(name="post_id", referencedColumnName="post_id")
+     */
+    protected $savedPosts;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->savedPosts = new ArrayCollection();
     }
 
     /**
@@ -213,7 +220,7 @@ class Post
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getTags()
     {
@@ -228,5 +235,18 @@ class Post
     public function removeTagAssociation($tag)
     {
         $this->tags->removeElement($tag);
+    }
+
+    /**
+     * @return array
+     */
+    public function getSavedPosts()
+    {
+        return $this->savedPosts;
+    }
+
+    public function addSavePost($savedPost)
+    {
+        $this->savedPosts[] = $savedPost;
     }
 }
