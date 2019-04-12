@@ -5,31 +5,42 @@
         <h1 class="display-4"><?php echo $post->getTitle() ?></h1>
     </div>
     <div class="col-md-3">
-        <?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
-            <a href="/post/edit/<?php echo $post->getId() ?>" class="btn btn-outline-dark">Edit</a>
-        <?php } ?>
-        <?php if ($post->isAuthor($this->identity())) { ?>
-            <a href="/post/delete/<?php echo $post->getId() ?>" class="btn btn-outline-dark">Delete</a>
-        <?php } ?>
     </div>
 </div>
 
-<span>
-    <?php if ($this->isSaved) { ?>
-        <a href="/post/deletesaved/<?php echo $post->getId() ?>" title="Delete from Saved"><i class="fas fa-star"></i></a>
-    <?php } else { ?>
-        <a href="/post/addtosaved/<?php echo $post->getId() ?>" title="Add to Saved"><i class="far fa-star"></i></a>
-    <?php } ?>
-</span>
+<div>
+    <span>
+        <?php if (!$post->isAuthor($this->identity())) { ?>
+            <?php if ($this->isSaved) { ?>
+                <a href="/post/deletesaved/<?php echo $post->getId() ?>" title="Delete from Saved">
+                    <i class="fas fa-star"></i>
+                </a>
+            <?php } else { ?>
+                <a href="/post/addtosaved/<?php echo $post->getId() ?>" title="Add to Saved">
+                    <i class="far fa-star"></i>
+                </a>
+            <?php } ?>
+        <?php } else { ?>
+            <?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
+                <a href="/post/edit/<?php echo $post->getId() ?>" class="btn btn-sm btn-outline-dark">Edit</a>
+            <?php } ?>
+        <?php if ($post->isAuthor($this->identity())) { ?>
+                <a href="/post/delete/<?php echo $post->getId() ?>" class="btn btn-sm btn-outline-dark">Delete</a>
+            <?php } ?>
+        <?php } ?>
+    </span>
 
-<span class="float-right">
-    <b><span class="text-muted">Author: </span></b>
-    <i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
-    <b><span class="text-muted">Date: </span></b>
-    <i><span class="text-muted"><?php echo $post->getDate() ?></span></i>
-</span>
+    <span class="float-right">
+        <b><span class="text-muted">Author: </span></b>
+        <i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
+        <b><span class="text-muted">Date: </span></b>
+        <i><span class="text-muted"><?php echo $post->getDate() ?></span></i>
+    </span>
+</div>
 
-<p class="lead text-justify" style="margin: 10px 0 10px 0"><?php echo $post->getContent() ?></p>
+<div class="lead text-justify">
+    <p style="margin: 10px 0 10px 0"><?php echo $post->getContent() ?></p>
+</div>
 
 <?php $count = count($post->getTags()) - 1;
 if ($count >= 0) { ?>

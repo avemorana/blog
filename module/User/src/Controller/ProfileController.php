@@ -123,4 +123,20 @@ class ProfileController extends AbstractActionController
         ]);
     }
 
+    public function savedAction()
+    {
+        $page = $this->params()->fromQuery('page', 1);
+
+        $query = $this->entityManager->getRepository(Post::class)
+            ->getSavedPostByUser($this->user->getId());
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(5);
+        $paginator->setCurrentPageNumber($page);
+
+        return new ViewModel([
+            'posts' => $paginator,
+        ]);
+    }
+
 }
