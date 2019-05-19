@@ -71,4 +71,16 @@ class UserManager
         $data['user']->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
         $this->entityManager->flush();
     }
+
+    public function addUserToBlocked($user, $blockedUser)
+    {
+        $user->addBlockedByMe($blockedUser);
+        $this->entityManager->flush();
+    }
+
+    public function deleteUserFromBlocked($user, $blockedUser)
+    {
+        $user->removeBlockedAssociation($blockedUser);
+        $this->entityManager->flush();
+    }
 }

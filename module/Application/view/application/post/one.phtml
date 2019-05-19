@@ -1,4 +1,6 @@
-<?php $post = $this->post; ?>
+<?php $post = $this->post;
+$isAuthor = $this->isAuthor;
+?>
 
 <div class="row">
     <div class="col-md-9">
@@ -10,7 +12,7 @@
 
 <div>
     <span>
-        <?php if (!$post->isAuthor($this->identity())) { ?>
+        <?php if (!$isAuthor) { ?>
             <?php if ($this->isSaved) { ?>
                 <a href="/post/deletesaved/<?php echo $post->getId() ?>" title="Delete from Saved">
                     <i class="fas fa-star"></i>
@@ -21,16 +23,27 @@
                 </a>
             <?php } ?>
         <?php } else { ?>
-            <?php if ($post->isAuthor($this->identity()) && $post->canBeEdit()) { ?>
+            <?php if ($post->canBeEdit()) { ?>
                 <a href="/post/edit/<?php echo $post->getId() ?>" class="btn btn-sm btn-outline-dark">Edit</a>
             <?php } ?>
-        <?php if ($post->isAuthor($this->identity())) { ?>
-                <a href="/post/delete/<?php echo $post->getId() ?>" class="btn btn-sm btn-outline-dark">Delete</a>
-            <?php } ?>
+            <a href="/post/delete/<?php echo $post->getId() ?>" class="btn btn-sm btn-outline-dark">Delete</a>
         <?php } ?>
     </span>
 
     <span class="float-right">
+        <?php if (!$isAuthor) { ?>
+            <?php if (!$this->isBlocked) { ?>
+                <a href="/user/block/<?php echo $post->getUser()->getId() ?>"
+                   title="Block author">
+                    <i class="fas fa-user-alt-slash"></i>
+                </a>
+            <?php } else { ?>
+                <a href="/user/unblock/<?php echo $post->getUser()->getId() ?>"
+                   title="Unblock author">
+                    <i class="fas fa-user-alt"></i>
+                </a>
+            <?php } ?>
+        <?php } ?>
         <b><span class="text-muted">Author: </span></b>
         <i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
         <b><span class="text-muted">Date: </span></b>

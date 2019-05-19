@@ -64,10 +64,10 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts'];
+            return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts', 'blockedByMe', 'blockedMe'];
         }
 
-        return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts'];
+        return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts', 'blockedByMe', 'blockedMe'];
     }
 
     /**
@@ -307,6 +307,72 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSavedPost', [$savedPost]);
 
         return parent::addSavedPost($savedPost);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockedByMe()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getBlockedByMe', []);
+
+        return parent::getBlockedByMe();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addBlockedByMe($blockedUser)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addBlockedByMe', [$blockedUser]);
+
+        return parent::addBlockedByMe($blockedUser);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeBlockedAssociation($blockedUser)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeBlockedAssociation', [$blockedUser]);
+
+        return parent::removeBlockedAssociation($blockedUser);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isBlocked($blockedUser)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isBlocked', [$blockedUser]);
+
+        return parent::isBlocked($blockedUser);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getBlockedMe()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getBlockedMe', []);
+
+        return parent::getBlockedMe();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addUserBlockedMe($blockedMeUser)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addUserBlockedMe', [$blockedMeUser]);
+
+        return parent::addUserBlockedMe($blockedMeUser);
     }
 
 }

@@ -25,4 +25,17 @@ class UserRepository extends EntityRepository
         $users = $queryBuilder->getQuery();
         return $users;
     }
+
+    public function getBlockedUsers($userId)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('u', 'b')->from(User::class, 'u');
+        $queryBuilder->join('u.blockedMe', 'b');
+        $queryBuilder->where('b.id = ' . $userId);
+        $blockedUsers = $queryBuilder->getQuery();
+
+        return $blockedUsers;
+    }
 }

@@ -111,7 +111,9 @@ class PostController extends AbstractActionController
             'post' => $post,
             'form' => $form,
             'comments' => $paginator,
-            'isSaved' => $isSaved
+            'isSaved' => $isSaved,
+            'isAuthor' => $post->isAuthor($this->identity()),
+            'isBlocked' => $user->isBlocked($post->getUser())
         ]);
     }
 

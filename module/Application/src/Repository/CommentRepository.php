@@ -40,4 +40,18 @@ class CommentRepository extends EntityRepository
         $comments = $queryBuilder->getQuery();
         return $comments;
     }
+
+    public function getAmountCommentsByUserId($userId)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('COUNT(c.id)')
+            ->from(Comment::class, 'c')
+            ->where('c.userId = ' . $userId)
+            ->orderBy('c.date', 'DESC');
+
+        $comments = $queryBuilder->getQuery()->getResult();
+        return $comments[0][1];
+    }
 }

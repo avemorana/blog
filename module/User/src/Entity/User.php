@@ -55,6 +55,20 @@ class User
     protected $savedPosts;
 
     /**
+     * @ORM\ManyToMany(targetEntity="\User\Entity\User", inversedBy="blockedMe")
+     * @ORM\JoinTable(name="blocked_user",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="user_id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="blocked_id", referencedColumnName="user_id")}
+     *      )
+     */
+    protected $blockedByMe;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="\User\Entity\User", mappedBy="blockedByMe")
+     */
+    protected $blockedMe;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -148,6 +162,42 @@ class User
     public function addSavedPost($savedPost)
     {
         $this->savedPosts[] = $savedPost;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBlockedByMe()
+    {
+        return $this->blockedByMe;
+    }
+
+    public function addBlockedByMe($blockedUser)
+    {
+        $this->blockedByMe[] = $blockedUser;
+    }
+
+    public function removeBlockedAssociation($blockedUser)
+    {
+        $this->blockedByMe->removeElement($blockedUser);
+    }
+
+    public function isBlocked($blockedUser)
+    {
+        return in_array($blockedUser, $this->blockedByMe->toArray());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBlockedMe()
+    {
+        return $this->blockedMe;
+    }
+
+    public function addUserBlockedMe($blockedMeUser)
+    {
+        $this->blockedMe[] = $blockedMeUser;
     }
 
 }

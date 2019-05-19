@@ -93,4 +93,36 @@ class UserController extends AbstractActionController
             'users' => $paginator,
         ]);
     }
+
+    public function blockAction()
+    {
+        $blockedUserId = $this->params()->fromRoute('id', -1);
+        $blockedUser = $this->entityManager->getRepository(User::class)
+            ->findOneById($blockedUserId);
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByLogin($this->identity());
+        if ($blockedUser == null || $user == null){
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+        $this->userManager->addUserToBlocked($user, $blockedUser);
+
+        // TODO: AJAX IN ONE.PHTML
+    }
+
+    public function unblockAction()
+    {
+        $blockedUserId = $this->params()->fromRoute('id', -1);
+        $blockedUser = $this->entityManager->getRepository(User::class)
+            ->findOneById($blockedUserId);
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByLogin($this->identity());
+        if ($blockedUser == null || $user == null){
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+        $this->userManager->deleteUserFromBlocked($user, $blockedUser);
+
+        // TODO: AJAX IN ONE.PHTML, BLOCKED.PHTML
+    }
 }

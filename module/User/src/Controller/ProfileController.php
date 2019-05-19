@@ -139,4 +139,22 @@ class ProfileController extends AbstractActionController
         ]);
     }
 
+    public function blockedAction()
+    {
+        // TODO: paginator
+        $page = $this->params()->fromQuery('page', 1);
+
+        $query = $this->entityManager->getRepository(User::class)
+            ->getBlockedUsers($this->user->getId());
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(10);
+        $paginator->setCurrentPageNumber($page);
+
+        return new ViewModel([
+            'users' => $paginator,
+            'entityManager' => $this->entityManager
+        ]);
+    }
+
 }

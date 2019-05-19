@@ -45,6 +45,20 @@ class PostRepository extends EntityRepository
         return $posts;
     }
 
+    public function getAmountPostsByUser($userId)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $queryBuilder = $entityManager->createQueryBuilder();
+        $queryBuilder->select('COUNT(p.id)')
+            ->from(Post::class, 'p')
+            ->where('p.user = ' . $userId);
+//            ->orderBy('p.date', 'DESC');
+
+        $posts = $queryBuilder->getQuery()->getResult();
+        return $posts[0][1];
+    }
+
     public function getPostsHavingAnyTag()
     {
         $entityManager = $this->getEntityManager();

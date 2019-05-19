@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-9">
+        <h1 class="display-4">Blocked users</h1>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+    <th>login</th>
+    <th>posts</th>
+    <th>comments</th>
+    <th></th>
+    </thead>
+    <tbody>
+    <?php foreach ($this->users as $user) { ?>
+        <tr>
+            <td><?php echo $user->getLogin() ?></td>
+            <td><?php echo $amountOfPosts = $this->entityManager->getRepository(\Application\Entity\Post::class)
+                    ->getAmountPostsByUser($user->getId());
+            ?></td>
+            <td><?php echo $amountOfComments = $this->entityManager->getRepository(\Application\Entity\Comment::class)
+                ->getAmountCommentsByUserId($user->getId()); ?></td>
+            <td>
+                <a href="/user/unblock/<?php echo $user->getId() ?>">
+                    unblock
+                </a>
+            </td>
+        </tr>
+    <?php } ?>
+    </tbody>
+</table>
+
+<?php
+echo $this->paginationControl($this->users,
+    'Sliding',
+    'application/partial/paginator',
+    ['route' => 'profile', 'action' => 'blocked']);
