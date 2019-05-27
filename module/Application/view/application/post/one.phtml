@@ -45,7 +45,9 @@ $isAuthor = $this->isAuthor;
             <?php } ?>
         <?php } ?>
         <b><span class="text-muted">Author: </span></b>
-        <i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
+        <a href="/post/author/<?php echo $post->getUser()->getId() ?>">
+            <i><span class="text-muted"><?php echo $post->getUser()->getLogin() ?></span></i>
+        </a>
         <b><span class="text-muted">Date: </span></b>
         <i><span class="text-muted"><?php echo $post->getDate() ?></span></i>
     </span>
@@ -103,7 +105,9 @@ $form->get('submit')->setAttributes([
 
                 <span><?php echo $comment->getContent() ?></span>
                 <span class="badge badge-dark badge-pill">
-                    <?php echo $comment->getUser()->getLogin() ?>
+                    <a href="/post/author/<?php echo $comment->getUser()->getId() ?>">
+                        <?php echo $comment->getUser()->getLogin() ?>
+                    </a>
                     <?php echo $comment->getDate() ?>
                 </span>
             </li>

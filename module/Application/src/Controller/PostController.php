@@ -62,6 +62,37 @@ class PostController extends AbstractActionController
         ]);
     }
 
+    public function authorAction()
+    {
+        $page = $this->params()->fromQuery('page', 1);
+        $tag = $this->params()->fromQuery('tag', -1);
+        $authorId = $this->params()->fromRoute('id', -1);
+
+        $author =  $this->entityManager->getRepository(User::class)
+            ->findOneById($authorId);
+
+        if ($author == null){
+            $this->redirect()->toRoute('post', ['action' => 'index']);
+        }
+
+        $query = $this->entityManager->getRepository(Post::class)
+            ->getAllPost(array('tag' => $tag, 'author' => $authorId));
+        $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
+        $paginator = new Paginator($adapter);
+        $paginator->setDefaultItemCountPerPage(5);
+        $paginator->setCurrentPageNumber($page);
+
+        $tagCloud = $this->postManager->getTagCloud();
+
+        return new ViewModel([
+            'posts' => $paginator,
+            'params' => ['tag' => $tag],
+            'tagCloud' => $tagCloud,
+            'author' => $author
+        ]);
+
+    }
+
     public function oneAction()
     {
         $postId = $this->params()->fromRoute('id', -1);

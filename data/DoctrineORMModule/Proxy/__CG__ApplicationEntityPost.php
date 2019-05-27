@@ -64,10 +64,10 @@ class Post extends \Application\Entity\Post implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments', 'tags'];
+            return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments', 'tags', 'savedPosts'];
         }
 
-        return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments', 'tags'];
+        return ['__isInitialized__', 'id', 'title', 'content', 'userId', 'date', 'user', 'comments', 'tags', 'savedPosts'];
     }
 
     /**
@@ -384,6 +384,28 @@ class Post extends \Application\Entity\Post implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeTagAssociation', [$tag]);
 
         return parent::removeTagAssociation($tag);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getSavedPosts()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSavedPosts', []);
+
+        return parent::getSavedPosts();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function addSavePost($savedPost)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addSavePost', [$savedPost]);
+
+        return parent::addSavePost($savedPost);
     }
 
 }

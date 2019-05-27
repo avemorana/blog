@@ -25,6 +25,9 @@ class PostRepository extends EntityRepository
             $queryBuilder->join('p.tags', 't');
             $queryBuilder->where('t.id = ' . $options['tag']);
         }
+        if (isset($options['author']) && $options['author'] != -1) {
+            $queryBuilder->where('p.user = ' . $options['author']);
+        }
         $queryBuilder->orderBy('p.date', 'DESC');
 
         $posts = $queryBuilder->getQuery();

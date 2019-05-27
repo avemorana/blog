@@ -1,6 +1,8 @@
 <div class="row">
     <div class="col-md-9">
-        <h1 class="display-4">Posts</h1>
+        <h1 class="display-4">Posts by
+            <?php echo $this->escapeHtml($this->author->getLogin()) ?>
+        </h1>
     </div>
     <div class="col-md-3">
         <a href="/post/add" class="btn btn-outline-dark">Create new post</a>
@@ -52,7 +54,7 @@
         <div class="card-body">
             <?php foreach ($this->tagCloud as $tagId => $tag) { ?>
 
-                <a href="<?= $this->url('post', ['action' => 'index'],
+                <a href="<?= $this->url('post', ['action' => 'author', 'id' => $this->author->getId()],
                     ['query' => ['tag' => $tagId]]); ?>">
 
                     <span style="font-size:<?= $this->escapeHtml(0.9 + $tag['count'] * 2) ?>em">
