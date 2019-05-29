@@ -57,7 +57,7 @@ class UserController extends AbstractActionController
             if ($form->isValid()) {
                 $data = $form->getData();
 
-                if ($data['password'] != $data['re-password']){
+                if ($data['password'] != $data['re-password']) {
                     $form->get('re-password')->setMessages(['Passwords do not match']);
                 } else {
                     $result = $this->userManager->addNewUser($data);
@@ -96,33 +96,33 @@ class UserController extends AbstractActionController
 
     public function blockAction()
     {
-        $blockedUserId = $this->params()->fromRoute('id', -1);
+        $blockedUserId = $this->params()->fromPost('userId', -1);
         $blockedUser = $this->entityManager->getRepository(User::class)
             ->findOneById($blockedUserId);
         $user = $this->entityManager->getRepository(User::class)
             ->findOneByLogin($this->identity());
-        if ($blockedUser == null || $user == null){
+        if ($blockedUser == null || $user == null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
         $this->userManager->addUserToBlocked($user, $blockedUser);
-
-        // TODO: AJAX IN ONE.PHTML
+        echo "ok";
+        return $this->getResponse();
     }
 
     public function unblockAction()
     {
-        $blockedUserId = $this->params()->fromRoute('id', -1);
+        $blockedUserId = $this->params()->fromPost('userId', -1);
         $blockedUser = $this->entityManager->getRepository(User::class)
             ->findOneById($blockedUserId);
         $user = $this->entityManager->getRepository(User::class)
             ->findOneByLogin($this->identity());
-        if ($blockedUser == null || $user == null){
+        if ($blockedUser == null || $user == null) {
             $this->getResponse()->setStatusCode(404);
             return;
         }
         $this->userManager->deleteUserFromBlocked($user, $blockedUser);
-
-        // TODO: AJAX IN ONE.PHTML, BLOCKED.PHTML
+        echo "ok";
+        return $this->getResponse();
     }
 }

@@ -13,17 +13,17 @@
     </thead>
     <tbody>
     <?php foreach ($this->users as $user) { ?>
-        <tr>
+        <tr id="row-<?php echo $user->getId() ?>">
             <td><?php echo $user->getLogin() ?></td>
             <td><?php echo $amountOfPosts = $this->entityManager->getRepository(\Application\Entity\Post::class)
                     ->getAmountPostsByUser($user->getId());
-            ?></td>
+                ?></td>
             <td><?php echo $amountOfComments = $this->entityManager->getRepository(\Application\Entity\Comment::class)
-                ->getAmountCommentsByUserId($user->getId()); ?></td>
+                    ->getAmountCommentsByUserId($user->getId()); ?></td>
             <td>
-                <a href="/user/unblock/<?php echo $user->getId() ?>">
+                <button user-id="<?php echo $user->getId() ?>" class="unblock">
                     unblock
-                </a>
+                </button>
                 <a href="/post/author/<?php echo $user->getId() ?>">
                     post
                 </a>
@@ -38,3 +38,21 @@ echo $this->paginationControl($this->users,
     'Sliding',
     'application/partial/paginator',
     ['route' => 'profile', 'action' => 'blocked']);
+?>
+
+<script>
+    $(".unblock").click(function () {
+        let userId = $(this).attr('user-id');
+        if (confirm("Unblock this user?")) {
+            $.ajax({
+                url: '/user/unblock',
+                type: "POST",
+                data: {userId: userId}
+            }).done(function (data) {
+                if (data){
+                    $("#row-" + userId).hide();
+                }
+            });
+        }
+    });
+</script>

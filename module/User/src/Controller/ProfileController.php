@@ -141,7 +141,6 @@ class ProfileController extends AbstractActionController
 
     public function blockedAction()
     {
-        // TODO: paginator
         $page = $this->params()->fromQuery('page', 1);
 
         $query = $this->entityManager->getRepository(User::class)

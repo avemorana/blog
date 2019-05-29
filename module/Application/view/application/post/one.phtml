@@ -33,16 +33,16 @@ $isAuthor = $this->isAuthor;
     <span class="float-right">
         <?php if (!$isAuthor) { ?>
             <?php if (!$this->isBlocked) { ?>
-                <a href="/user/block/<?php echo $post->getUser()->getId() ?>"
-                   title="Block author">
-                    <i class="fas fa-user-alt-slash"></i>
-                </a>
             <?php } else { ?>
-                <a href="/user/unblock/<?php echo $post->getUser()->getId() ?>"
-                   title="Unblock author">
-                    <i class="fas fa-user-alt"></i>
-                </a>
             <?php } ?>
+            <button class="btn btn-sm btn-link block" style="display: <?php if (!$this->isBlocked) { echo "initial"; } else { echo "none"; }?>"
+                    user-id="<?php echo $post->getUser()->getId() ?>" title="Block author">
+                    <i class="fas fa-user-alt-slash"></i>
+                </button>
+            <button class="btn btn-sm btn-link unblock" style="display: <?php if (!$this->isBlocked) { echo "none"; } else { echo "initial"; }?>"
+                    user-id="<?php echo $post->getUser()->getId() ?>" title="Unblock author">
+                    <i class="fas fa-user-alt"></i>
+                </button>
         <?php } ?>
         <b><span class="text-muted">Author: </span></b>
         <a href="/post/author/<?php echo $post->getUser()->getId() ?>">
@@ -124,3 +124,36 @@ $form->get('submit')->setAttributes([
 
 </div>
 
+<script>
+    $(".unblock").click(function () {
+        let userId = $(this).attr('user-id');
+        if (confirm("Unblock this user?")) {
+            $.ajax({
+                url: '/user/unblock',
+                type: "POST",
+                data: {userId: userId}
+            }).done(function (data) {
+                if (data) {
+                    $(".unblock").hide();
+                    $(".block").show();
+                }
+            });
+        }
+    });
+
+    $(".block").click(function () {
+        let userId = $(this).attr('user-id');
+        if (confirm("Block this user?")) {
+            $.ajax({
+                url: '/user/block',
+                type: "POST",
+                data: {userId: userId}
+            }).done(function (data) {
+                if (data) {
+                    $(".block").hide();
+                    $(".unblock").show();
+                }
+            });
+        }
+    });
+</script>
