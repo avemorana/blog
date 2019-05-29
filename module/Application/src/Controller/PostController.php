@@ -47,7 +47,7 @@ class PostController extends AbstractActionController
         $tag = $this->params()->fromQuery('tag', -1);
 
         $query = $this->entityManager->getRepository(Post::class)
-            ->getAllPost(array('tag' => $tag));
+            ->getAllPost(array('tag' => $tag, 'identity' => $this->identity()));
         $adapter = new DoctrineAdapter(new ORMPaginator($query, false));
         $paginator = new Paginator($adapter);
         $paginator->setDefaultItemCountPerPage(5);

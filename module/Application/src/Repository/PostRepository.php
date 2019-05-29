@@ -12,6 +12,7 @@ use Application\Entity\Post;
 use Application\Entity\SavedPost;
 use Application\Entity\Tag;
 use Doctrine\ORM\EntityRepository;
+use User\Entity\User;
 
 class PostRepository extends EntityRepository
 {
@@ -27,6 +28,13 @@ class PostRepository extends EntityRepository
         }
         if (isset($options['author']) && $options['author'] != -1) {
             $queryBuilder->where('p.user = ' . $options['author']);
+        }
+        if (isset($options['identity'])) {
+            $blockedIds = $entityManager->getRepository(User::class)
+                ->getBlockedIdsByIdentity($options['identity']);
+            if (count($blockedIds) > 0){
+                $queryBuilder->where('p.user NOT IN (' . implode(',', $blockedIds) . ')');
+            }
         }
         $queryBuilder->orderBy('p.date', 'DESC');
 
