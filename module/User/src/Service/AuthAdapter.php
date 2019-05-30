@@ -62,8 +62,13 @@ class AuthAdapter implements AdapterInterface
      */
     public function authenticate()
     {
-        $user = $this->entityManager->getRepository(User::class)
-            ->findOneByLogin($this->login);
+        if (stripos($this->login, '@') === false) {
+            $user = $this->entityManager->getRepository(User::class)
+                ->findOneByLogin($this->login);
+        } else {
+            $user = $this->entityManager->getRepository(User::class)
+                ->findOneByEmail($this->login);
+        }
 
         if ($user == null) {
             return new Result(
@@ -82,7 +87,7 @@ class AuthAdapter implements AdapterInterface
         if (password_verify($this->password, $user->getPassword())) {
             return new Result(
                 Result::SUCCESS,
-                $this->login,
+                $user->getId(), // identity
                 ['Authenticated successfully.']);
         }
 

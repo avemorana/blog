@@ -35,7 +35,7 @@ class LoginForm extends Form
                 'autocomplete' => 'off',
             ],
             'options' => [
-                'label' => 'Login',
+                'label' => 'Login or e-mail a',
             ],
         ]);
 
