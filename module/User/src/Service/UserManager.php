@@ -26,8 +26,14 @@ class UserManager
 
     public function addNewUser($data)
     {
-        if ($this->checkUserExists($data['login'])) {
-            return "Login '" . $data['login'] . "' already in use";
+        if ($this->checkLoginIsUsed($data['login'])) {
+            $messages['login'] = "Login '" . $data['login'] . "' already in use";
+        }
+        if ($this->checkEmailIsUsed($data['email'])) {
+            $messages['email'] = "E-mail '" . $data['email'] . "' already in use";
+        }
+        if ($messages){
+            return $messages;
         }
 
         $user = new User();
@@ -43,8 +49,14 @@ class UserManager
 
     public function updateUser($user, $data)
     {
-        if ($this->checkUserExists($data['login'])) {
-            return "Login '" . $data['login'] . "' already in use";
+        if ($this->checkLoginIsUsed($data['login'])) {
+            $messages['login'] = "Login '" . $data['login'] . "' already in use";
+        }
+        if ($this->checkEmailIsUsed($data['email'])) {
+            $messages['email'] = "E-mail '" . $data['email'] . "' already in use";
+        }
+        if ($messages){
+            return $messages;
         }
 
         $user->setLogin($data['login']);
@@ -60,10 +72,18 @@ class UserManager
         $this->entityManager->flush();
     }
 
-    public function checkUserExists($login)
+    public function checkLoginIsUsed($login)
     {
         $user = $this->entityManager->getRepository(User::class)
             ->findOneByLogin($login);
+
+        return $user !== null;
+    }
+
+    public function checkEmailIsUsed($email)
+    {
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByEmail($email);
 
         return $user !== null;
     }

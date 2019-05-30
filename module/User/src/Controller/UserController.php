@@ -62,12 +62,15 @@ class UserController extends AbstractActionController
                 } else {
                     $result = $this->userManager->addNewUser($data);
 
-                    if ($result != null) {
-                        $form->get('login')->setMessages([$result]);
-                    } else {
+                    if ($result == null) {
                         return $this->redirect()->toRoute('user');
                     }
-
+                    if ($result['login']) {
+                        $form->get('login')->setMessages([$result['login']]);
+                    }
+                    if ($result['email']) {
+                        $form->get('email')->setMessages([$result['email']]);
+                    }
                 }
             }
         }
