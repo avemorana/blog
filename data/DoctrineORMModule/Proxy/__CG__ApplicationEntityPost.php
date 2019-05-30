@@ -312,12 +312,12 @@ class Post extends \Application\Entity\Post implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function isAuthor($login)
+    public function isAuthor($userId)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAuthor', [$login]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAuthor', [$userId]);
 
-        return parent::isAuthor($login);
+        return parent::isAuthor($userId);
     }
 
     /**

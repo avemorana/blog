@@ -184,9 +184,9 @@ class Post
         }
     }
 
-    public function isAuthor($login)
+    public function isAuthor($userId)
     {
-        if ($this->user->getLogin() === $login) {
+        if ($this->user->getId() === $userId) {
             return true;
         }
         return false;

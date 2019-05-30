@@ -29,9 +29,9 @@ class PostRepository extends EntityRepository
         if (isset($options['author']) && $options['author'] != -1) {
             $queryBuilder->where('p.user = ' . $options['author']);
         }
-        if (isset($options['identity'])) {
+        if (isset($options['userId'])) {
             $blockedIds = $entityManager->getRepository(User::class)
-                ->getBlockedIdsByIdentity($options['identity']);
+                ->getBlockedIds($options['userId']);
             if (count($blockedIds) > 0){
                 $queryBuilder->where('p.user NOT IN (' . implode(',', $blockedIds) . ')');
             }

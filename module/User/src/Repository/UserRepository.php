@@ -39,12 +39,12 @@ class UserRepository extends EntityRepository
         return $blockedUsers;
     }
 
-    public function getBlockedIdsByIdentity($identity)
+    public function getBlockedIds($userId)
     {
         $entityManager = $this->getEntityManager();
 
         $currentUser = $entityManager->getRepository(User::class)
-            ->findOneByLogin($identity);
+            ->findOneById($userId);
 
         $ids = array();
         foreach ($currentUser->getBlockedByMe() as $blockedUser){
