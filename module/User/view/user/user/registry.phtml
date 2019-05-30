@@ -6,6 +6,10 @@ $form->get('login')->setAttributes([
     'class' => 'form-control',
 ]);
 
+$form->get('email')->setAttributes([
+    'class' => 'form-control',
+]);
+
 $form->get('password')->setAttributes([
     'class' => 'form-control',
 ]);
@@ -32,6 +36,14 @@ $form->get('submit')->setAttributes(['class' => 'btn btn-outline-success']);
             echo $this->formLabel($form->get('login'));
             echo $this->formElement($form->get('login'));
             echo $this->formElementErrors($form->get('login'));
+            ?>
+        </div>
+
+        <div class="form-group">
+            <?php
+            echo $this->formLabel($form->get('email'));
+            echo $this->formElement($form->get('email'));
+            echo $this->formElementErrors($form->get('email'));
             ?>
         </div>
 

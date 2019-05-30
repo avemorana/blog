@@ -37,6 +37,18 @@ class RegistrationForm extends Form
         ]);
 
         $this->add([
+            'type' => 'email',
+            'name' => 'email',
+            'attributes' => [
+                'id' => 'email',
+                'autocomplete' => 'off',
+            ],
+            'options' => [
+                'label' => 'E-mail',
+            ],
+        ]);
+
+        $this->add([
             'type' => 'password',
             'name' => 'password',
             'attributes' => [
@@ -88,6 +100,26 @@ class RegistrationForm extends Form
                     'options' => [
                         'min' => 3,
                         'max' => 20,
+                    ],
+                ],
+            ],
+        ]);
+
+        $inputFilter->add([
+            'name' => 'email',
+            'required' => true,
+            'filters' => [
+                ['name' => 'StringTrim'],
+                ['name' => 'StripTags'],
+                ['name' => 'StripNewlines'],
+            ],
+            'validators' => [
+                ['name' => 'EmailAddress'],
+                [
+                    'name' => 'StringLength',
+                    'options' => [
+                        'min' => 3,
+                        'max' => 50,
                     ],
                 ],
             ],

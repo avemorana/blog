@@ -32,6 +32,7 @@ class UserManager
 
         $user = new User();
         $user->setLogin($data['login']);
+        $user->setEmail($data['email']);
         $user->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
 
         // создание новой записи в таблице
@@ -47,6 +48,7 @@ class UserManager
         }
 
         $user->setLogin($data['login']);
+        $user->setEmail($data['email']);
         $user->setPassword($data['password']);
 
         $this->entityManager->flush();
