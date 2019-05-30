@@ -60,7 +60,7 @@ class Module
 
         // Выполняем фильтр доступа для каждого контроллера кроме AuthController
         // (чтобы избежать бесконечного перенаправления).
-        if ($controllerName!=AuthController::class &&
+        if ($controllerName!=AuthController::class && $actionName!='registry' &&
             !$authManager->filterAccess($controllerName, $actionName)) {
 
             // Перенаправляем пользователя на страницу "Login".

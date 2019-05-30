@@ -64,10 +64,10 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts', 'blockedByMe', 'blockedMe'];
+            return ['__isInitialized__', 'id', 'login', 'password', 'email', 'posts', 'comments', 'savedPosts', 'blockedByMe', 'blockedMe'];
         }
 
-        return ['__isInitialized__', 'id', 'login', 'password', 'posts', 'comments', 'savedPosts', 'blockedByMe', 'blockedMe'];
+        return ['__isInitialized__', 'id', 'login', 'password', 'email', 'posts', 'comments', 'savedPosts', 'blockedByMe', 'blockedMe'];
     }
 
     /**
@@ -241,6 +241,28 @@ class User extends \User\Entity\User implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPassword', [$password]);
 
         return parent::setPassword($password);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEmail()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
+
+        return parent::getEmail();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setEmail($email): void
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', [$email]);
+
+        parent::setEmail($email);
     }
 
     /**
